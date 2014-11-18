@@ -1,0 +1,24 @@
+
+> telemetry-events@0.0.0 test /Volumes/github/tristanls/telemetry-events
+> node scripts/test.js
+
+
+[1mconstructor[22m
+✔ instantiates with valid config
+✔ throws error if config is missing property: package
+
+[1mlog[22m
+✔ returns log event
+✔ allows custom to be passed as the second parameter instead of message
+✔ emits 'telemetry' event if emitter is specified but event is not
+✔ emits configured event if emitter and event are specified
+✔ does not throw an error if emitter is not specified but event is
+
+[1mmetric[22m
+✔ returns metric event
+✔ emits 'telemetry' event if emitter is specified but event is not
+✔ emits configured event if emitter and event are specified
+✔ does not throw an error if emitter is not specified but event is
+✔ does not throw an error if custom is not specified
+
+[1m[32mOK: [39m[22m64 assertions (13ms)

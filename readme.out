@@ -1,0 +1,38 @@
+
+> telemetry-events@0.0.0 readme /Volumes/github/tristanls/telemetry-events
+> node examples/readme.js
+
+{ type: 'log',
+  level: 'info',
+  timestamp: '2014-11-18T01:43:01.630Z',
+  module: 'telemetry-events',
+  version: '0.0.0',
+  message: 'hello info level' }
+{ type: 'log',
+  level: 'warn',
+  timestamp: '2014-11-18T01:43:01.640Z',
+  module: 'telemetry-events',
+  version: '0.0.0',
+  message: 'hello warn level' }
+{ type: 'log',
+  level: 'error',
+  timestamp: '2014-11-18T01:43:01.641Z',
+  module: 'telemetry-events',
+  version: '0.0.0',
+  message: 'hello error with custom data',
+  custom: 'data' }
+{ type: 'metric',
+  name: 'request-count',
+  value: 132,
+  unit: 'Req/s',
+  timestamp: '2014-11-18T01:43:01.641Z',
+  module: 'telemetry-events',
+  version: '0.0.0' }
+{ type: 'metric',
+  name: 'error-count',
+  value: 3,
+  unit: 'Err/s',
+  timestamp: '2014-11-18T01:43:01.642Z',
+  module: 'telemetry-events',
+  version: '0.0.0',
+  instance: 'i-324fd24a' }
