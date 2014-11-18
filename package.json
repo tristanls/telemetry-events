@@ -1,6 +1,6 @@
 {
   "name": "telemetry-events",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Helper for creating and emitting telemetry events.",
   "scripts": {
     "inject-examples": "node scripts/injectExamples.js",
