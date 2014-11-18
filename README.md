@@ -6,6 +6,10 @@ _Stability: 1 - [Experimental](https://github.com/tristanls/stability-index#stab
 
 Helper for creating and emitting telemetry events.
 
+## Contributors
+
+[@tristanls](https://github.com/tristanls), [@lpearson05](https://github.com/lpearson05)
+
 ## Contents
 
   * [Installation](#installation)
