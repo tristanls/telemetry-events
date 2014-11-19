@@ -70,7 +70,7 @@ telemetry.log('error', 'hello error with custom data', {custom: 'data'});
     * `package`: _Object_ Contents of `package.json`.
       * `name`: _String_ Module name.
       * `version`: _String_ Module version.
-    * `emitter`: _EventEmitter_ _(Default: undefined)_ An optional event emitter to emit events when `log()` and `metric()` are called.
+    * `emitter`: _EventEmitter_ _(Default: undefined)_ An optional event emitter to emit events when `log()` is called.
     * `event`: _String_ _(Default: 'telemetry')_ An optional event name used for event emission if `emitter` is specified.
 
 Creates a new TelemetryEvents instance.
