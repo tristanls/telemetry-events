@@ -49,6 +49,10 @@ function TelemetryEvents(config) {
     self._emitter = config.emitter;
     if (self._emitter) {
         self._event = config.event || "telemetry";
+    } else {
+        if (config.event) {
+            throw new Error("'event' property specified in 'config' without corresponding 'emitter' property");
+        }
     }
 };
 

@@ -62,3 +62,17 @@ REQUIRED_CONFIG_PROPERTIES.forEach(function(property) {
         test.done();
     };
 });
+
+tests['throws error if config has event specified without emitter specified'] = function (test) {
+    test.expect(1);
+    test.throws(function () {
+        new TelemetryEvents({
+            event: 'all by myyyyselllllllllllf',
+            package: {
+                name: "package-name",
+                version: "package-version"
+            }
+        });
+    });
+    test.done();
+};

@@ -127,18 +127,3 @@ tests["emits configured event if emitter and event are specified"] = function (t
     });
     telemetry.log('info', "'ello", {foo: 'bar', baz: {hi: 'there'}});
 };
-
-tests["does not throw an error if emitter is not specified but event is"] = function (test) {
-    test.expect(1);
-    test.doesNotThrow(function () {
-        var telemetry = new TelemetryEvents({
-            event: 'foo',
-            package: {
-                name: "package-name",
-                version: "package-version"
-            }
-        });
-        telemetry.log('info', "'ello", {foo: 'bar', baz: {hi: 'there'}});
-    })
-    test.done();
-};
