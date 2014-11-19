@@ -31,14 +31,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 "use strict";
 
-var events = require('events');
 var TelemetryEvents = require('../index.js');
 
 var tests = module.exports = {};
 
 var VALID_CONFIG = {
-    emitter: new events.EventEmitter(),
-    event: 'my-telemetry',
     package: {
         name: "package-name",
         version: "package-version"
@@ -57,10 +54,10 @@ tests['instantiates with valid config'] = function (test) {
 REQUIRED_CONFIG_PROPERTIES.forEach(function(property) {
     tests["throws error if config is missing property: " + property] = function(test) {
         test.expect(1);
+        var config = JSON.parse(JSON.stringify(VALID_CONFIG))
+        delete config[property];
         test.throws(function() {
-            var config = JSON.parse(JSON.stringify(VALID_CONFIG))
-            delete config[property];
-            new SQSReceiver(config);
+            new TelemetryEvents(config);
         });
         test.done();
     };
