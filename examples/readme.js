@@ -45,6 +45,3 @@ emitter.on('telemetry', function (event) {
 telemetry.log('info', 'hello info level');
 telemetry.log('warn', 'hello warn level');
 telemetry.log('error', 'hello error with custom data', {custom: 'data'});
-
-telemetry.metric('request-count', 132, 'Req/s');
-telemetry.metric('error-count', 3, 'Err/s', {instance: 'i-324fd24a'});

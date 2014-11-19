@@ -82,28 +82,3 @@ TelemetryEvents.prototype.log = function log(level, message, custom) {
 
     return event;
 };
-
-TelemetryEvents.prototype.metric = function metric(name, value, unit, custom) {
-    var self = this;
-
-    var event = {
-        type: 'metric',
-        name: name,
-        value: value,
-        unit: unit,
-        timestamp: new Date().toISOString(),
-        module: self._package.name,
-        version: self._package.version
-    };
-    if (custom) {
-        Object.keys(custom).forEach(function(property) {
-            event[property] = custom[property];
-        });
-    }
-
-    if (self._emitter) {
-        self._emitter.emit(self._event, event);
-    }
-
-    return event;
-};
