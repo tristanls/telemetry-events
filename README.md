@@ -62,6 +62,7 @@ telemetry.log('error', 'hello error with custom data', {custom: 'data'});
 **Public API**
 
   * [new TelemetryEvents(config)](#new-telemetryeventsconfig)
+  * [telemetry.emit(event)](#telemetryemitevent)
   * [telemetry.log(level, \[message\], \[custom\])](#telemetryloglevel-message-custom)
 
 ### new TelemetryEvents(config)
@@ -71,9 +72,17 @@ telemetry.log('error', 'hello error with custom data', {custom: 'data'});
       * `name`: _String_ Module name.
       * `version`: _String_ Module version.
     * `emitter`: _EventEmitter_ _(Default: undefined)_ An optional event emitter to emit events when `log()` is called.
-    * `event`: _String_ _(Default: 'telemetry')_ An optional event name used for event emission if `emitter` is specified.
+    * `eventName`: _String_ _(Default: 'telemetry')_ An optional event name used for event emission if `emitter` is specified.
 
 Creates a new TelemetryEvents instance.
+
+### telemetry.emit(event)
+
+  * `event`: _Object_ Event to be emitted.
+
+Calling this method if `emitter` is not defined does nothing.
+
+When `emitter` is defined, calling this method will emit the `event` using `eventName`, if provided, or "telemetry" (by default).
 
 ### telemetry.log(level, [message], [custom])
 
@@ -88,6 +97,7 @@ Helper to create "log" event. If `emitter` was specified in configuration, calli
 {
     type: 'log',
     level: <level>,
+    message: <message>, // if provided
     timestamp: new Date().toISOString(),
     module: <package.name>,
     version: <package.version>

@@ -48,11 +48,19 @@ function TelemetryEvents(config) {
 
     self._emitter = config.emitter;
     if (self._emitter) {
-        self._event = config.event || "telemetry";
+        self._eventName = config.eventName || "telemetry";
     } else {
         if (config.event) {
             throw new Error("'event' property specified in 'config' without corresponding 'emitter' property");
         }
+    }
+};
+
+TelemetryEvents.prototype.emit = function emit(event) {
+    var self = this;
+
+    if (self._emitter) {
+        self._emitter.emit(self._eventName, event);
     }
 };
 
@@ -80,9 +88,7 @@ TelemetryEvents.prototype.log = function log(level, message, custom) {
         });
     }
 
-    if (self._emitter) {
-        self._emitter.emit(self._event, event);
-    }
+    self.emit(event);
 
     return event;
 };

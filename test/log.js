@@ -79,9 +79,12 @@ tests['allows custom to be passed as the second parameter instead of message'] =
     test.done();
 };
 
-tests["emits 'telemetry' event if emitter is specified but event is not"] = function (test) {
-    test.expect(8);
+tests["should call emit() to emit event"] = function (test) {
+    test.expect(1);
     var _emitter = new events.EventEmitter();
+    _emitter.emit = function () {
+        test.ok(false, "emitter.emit() should not have been called directly");
+    };
     var telemetry = new TelemetryEvents({
             emitter: _emitter,
             package: {
@@ -89,41 +92,11 @@ tests["emits 'telemetry' event if emitter is specified but event is not"] = func
                 version: "package-version"
             }
         });
-    _emitter.on('telemetry', function (event) {
-        assertEqual(test, 'event.type', event.type, 'log');
-        assertEqual(test, 'event.level', event.level, 'info');
-        test.ok(event.timestamp, "Missing event.timestamp");
-        assertEqual(test, 'event.module', event.module, 'package-name');
-        assertEqual(test, 'event.version', event.version, 'package-version');
-        assertEqual(test, 'event.message', event.message, "'ello");
-        assertEqual(test, 'event.foo', event.foo, 'bar');
-        test.deepEqual(event.baz, {hi: 'there'}, "expected value for event.baz was '" + JSON.stringify({hi: 'there'}) + "' but received '" + JSON.stringify(event.baz));
-        test.done();
-    });
-    telemetry.log('info', "'ello", {foo: 'bar', baz: {hi: 'there'}});
-};
-
-tests["emits configured event if emitter and event are specified"] = function (test) {
-    test.expect(8);
-    var _emitter = new events.EventEmitter();
-    var telemetry = new TelemetryEvents({
-            emitter: _emitter,
-            event: 'my-telemetry',
-            package: {
-                name: "package-name",
-                version: "package-version"
-            }
-        });
-    _emitter.on('my-telemetry', function (event) {
-        assertEqual(test, 'event.type', event.type, 'log');
-        assertEqual(test, 'event.level', event.level, 'info');
-        test.ok(event.timestamp, "Missing event.timestamp");
-        assertEqual(test, 'event.module', event.module, 'package-name');
-        assertEqual(test, 'event.version', event.version, 'package-version');
-        assertEqual(test, 'event.message', event.message, "'ello");
-        assertEqual(test, 'event.foo', event.foo, 'bar');
-        test.deepEqual(event.baz, {hi: 'there'}, "expected value for event.baz was '" + JSON.stringify({hi: 'there'}) + "' but received '" + JSON.stringify(event.baz));
-        test.done();
-    });
-    telemetry.log('info', "'ello", {foo: 'bar', baz: {hi: 'there'}});
+    var emittedEvent;
+    telemetry.emit = function (event) {
+        emittedEvent = event;
+    };
+    var actualEvent = telemetry.log('info', "'ello", {foo: 'bar', baz: {hi: 'there'}});
+    test.strictEqual(emittedEvent, actualEvent, "What are you doing?");
+    test.done();
 };
