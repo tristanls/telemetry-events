@@ -51,7 +51,7 @@ tests["does not throw if emitter is not specified"] = function (test) {
     test.done();
 };
 
-tests["emits 'telemetry' event if emitter is specified but event is not"] = function (test) {
+tests["emits 'telemetry' event if emitter is specified but eventName is not"] = function (test) {
     test.expect(1);
     var _emitter = new events.EventEmitter();
     var _event = {};
@@ -69,7 +69,7 @@ tests["emits 'telemetry' event if emitter is specified but event is not"] = func
     test.done();
 };
 
-tests["emits configured event if emitter and event are specified"] = function (test) {
+tests["emits <eventName> event if emitter and eventName are specified"] = function (test) {
     test.expect(1);
     var _emitter = new events.EventEmitter();
     var _event = {};
