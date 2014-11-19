@@ -47,9 +47,6 @@ telemetry.log('info', 'hello info level');
 telemetry.log('warn', 'hello warn level');
 telemetry.log('error', 'hello error with custom data', {custom: 'data'});
 
-telemetry.metric('request-count', 132, 'Req/s');
-telemetry.metric('error-count', 3, 'Err/s', {instance: 'i-324fd24a'});
-
 ```
 
 ## Tests
@@ -66,7 +63,6 @@ telemetry.metric('error-count', 3, 'Err/s', {instance: 'i-324fd24a'});
 
   * [new TelemetryEvents(config)](#new-telemetryeventsconfig)
   * [telemetry.log(level, \[message\], \[custom\])](#telemetryloglevel-message-custom)
-  * [telemetry.metric(name, value, unit, \[custom\])](#telemetrymetricname-value-unit-custom)
 
 ### new TelemetryEvents(config)
 
@@ -92,30 +88,6 @@ Helper to create "log" event. If `emitter` was specified in configuration, calli
 {
     type: 'log',
     level: <level>,
-    timestamp: new Date().toISOString(),
-    module: <package.name>,
-    version: <package.version>
-}
-```
-
-Any property of `custom` Object will be attached to the above event template. You can also use `custom` to override any of the above properties.
-
-### telemetry.metric(name, value, unit, [custom])
-
-  * `name`: _String_ Name of the metric to be used for `event.name` property.
-  * `value`: _Any_ Value for the metric to be used for `event.value` property.
-  * `unit`: _String_ Metric unit to be used for `event.unit` property. For recommended units see: [Metrics 2.0 Units](http://metrics20.org/spec/#units).
-  * `custom`: _Object_ _(Default: undefined)_ Optional object with custom properties to add to the event.
-  * Return: _Object_ The event.
-
-Helper to create "metric" event. If `emitter` was specified in configuration, calling this helper will also emit this event. The created event object will have the following properties:
-
-```javascript
-{
-    type: 'metric',
-    name: <name>,
-    value: <value>,
-    unit: <unit>,
     timestamp: new Date().toISOString(),
     module: <package.name>,
     version: <package.version>
