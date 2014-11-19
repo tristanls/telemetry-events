@@ -51,7 +51,7 @@ function TelemetryEvents(config) {
         self._eventName = config.eventName || "telemetry";
     } else {
         if (config.event) {
-            throw new Error("'event' property specified in 'config' without corresponding 'emitter' property");
+            throw new Error("'eventName' property specified in 'config' without corresponding 'emitter' property");
         }
     }
 };
