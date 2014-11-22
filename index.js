@@ -35,6 +35,14 @@ module.exports = TelemetryEvents;
 
 var REQUIRED_CONFIG_PROPERTIES = ["package"];
 
+/*
+  * `config`: _Object_
+    * `package`: _Object_ Contents of `package.json`.
+      * `name`: _String_ Module name.
+      * `version`: _String_ Module version.
+    * `emitter`: _EventEmitter_ _(Default: undefined)_ An optional event emitter to emit events when `emit()` is called.
+    * `eventName`: _String_ _(Default: 'telemetry')_ An optional event name used for event emission if `emitter` is specified.
+*/
 function TelemetryEvents(config) {
     var self = this;
 
