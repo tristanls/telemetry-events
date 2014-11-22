@@ -43,9 +43,8 @@ emitter.on('telemetry', function (event) {
     console.dir(event);
 });
 
-telemetry.log('info', 'hello info level');
-telemetry.log('warn', 'hello warn level');
-telemetry.log('error', 'hello error with custom data', {custom: 'data'});
+telemetry.emit({type: 'log', level: 'info', message: 'hello info level'});
+telemetry.emit({type: 'metric', name: 'web requests', target_type: 'counter', unit: 'Req', value: 1});
 
 ```
 
@@ -63,7 +62,6 @@ telemetry.log('error', 'hello error with custom data', {custom: 'data'});
 
   * [new TelemetryEvents(config)](#new-telemetryeventsconfig)
   * [telemetry.emit(event)](#telemetryemitevent)
-  * [telemetry.log(level, \[message\], \[custom\])](#telemetryloglevel-message-custom)
 
 ### new TelemetryEvents(config)
 
@@ -79,29 +77,8 @@ Creates a new TelemetryEvents instance.
 ### telemetry.emit(event)
 
   * `event`: _Object_ Event to be emitted.
-
-Calling this method if `emitter` is not defined does nothing.
-
-When `emitter` is defined, calling this method will emit the `event` using `eventName`, if provided, or "telemetry" (by default).
-
-### telemetry.log(level, [message], [custom])
-
-  * `level`: _String_ Log level to be used for `event.level` property.
-  * `message`: _String_ _(Default: undefined)_ An optional message to be used for `event.message` property.
-  * `custom`: _Object_ _(Default: undefined)_ Optional object with custom properties to add to the event.
   * Return: _Object_ The event.
 
-Helper to create "log" event. If `emitter` was specified in configuration, calling this helper will also emit this event. The created event object will have the following properties:
+Adds or extends 'event.provenance'. Adds 'event.timestamp' if not present.
 
-```javascript
-{
-    type: 'log',
-    level: <level>,
-    message: <message>, // if provided
-    timestamp: new Date().toISOString(),
-    module: <package.name>,
-    version: <package.version>
-}
-```
-
-Any property of `custom` Object will be attached to the above event template. You can also use `custom` to override any of the above properties.
+If `emitter` is not defined, this method does not emit the event. When `emitter` is defined, calling this method will emit the `event` using `eventName`, if provided, or "telemetry" (by default).

@@ -42,6 +42,5 @@ emitter.on('telemetry', function (event) {
     console.dir(event);
 });
 
-telemetry.log('info', 'hello info level');
-telemetry.log('warn', 'hello warn level');
-telemetry.log('error', 'hello error with custom data', {custom: 'data'});
+telemetry.emit({type: 'log', level: 'info', message: 'hello info level'});
+telemetry.emit({type: 'metric', name: 'web requests', target_type: 'counter', unit: 'Req', value: 1});

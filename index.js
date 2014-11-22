@@ -56,39 +56,30 @@ function TelemetryEvents(config) {
     }
 };
 
+/*
+  * `event`: _Object_ Event to be emitted.
+  * Return: _Object_ The event.
+ */
 TelemetryEvents.prototype.emit = function emit(event) {
     var self = this;
 
-    if (self._emitter) {
-        self._emitter.emit(self._eventName, event);
+    if (!event.provenance) {
+        event.provenance = [];
     }
-};
+    if (!event.timestamp) {
+        event.timestamp = new Date().toISOString();
+    }
 
-TelemetryEvents.prototype.log = function log(level, message, custom) {
-    var self = this;
-
-    var event = {
-        type: 'log',
-        level: level,
-        timestamp: new Date().toISOString(),
+    event.provenance.push({
         module: self._package.name,
         version: self._package.version
-    };
-    // allow custom to be passed as second parameter
-    if (message && typeof message != "string") {
-        custom = message;
-        message = null;
-    }
-    if (message) {
-        event.message = message;
-    }
-    if (custom) {
-        Object.keys(custom).forEach(function(property) {
-            event[property] = custom[property];
+    });
+
+    if (self._emitter) {
+        process.nextTick(function() {
+            self._emitter.emit(self._eventName, event);
         });
     }
-
-    self.emit(event);
 
     return event;
 };

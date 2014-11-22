@@ -38,7 +38,7 @@ var tests = module.exports = {};
 
 tests["does not throw if emitter is not specified"] = function (test) {
     test.expect(1);
-    var _event = {};
+    var event = {};
     var telemetry = new TelemetryEvents({
             package: {
                 name: "package-name",
@@ -46,44 +46,92 @@ tests["does not throw if emitter is not specified"] = function (test) {
             }
         });
     test.doesNotThrow(function () {
-        telemetry.emit(_event);
+        telemetry.emit(event);
     });
     test.done();
 };
 
 tests["emits 'telemetry' event if emitter is specified but eventName is not"] = function (test) {
     test.expect(1);
-    var _emitter = new events.EventEmitter();
-    var _event = {};
+    var emitter = new events.EventEmitter();
+    var event = {};
     var telemetry = new TelemetryEvents({
-            emitter: _emitter,
+            emitter: emitter,
             package: {
                 name: "package-name",
                 version: "package-version"
             }
         });
-    _emitter.on('telemetry', function (event) {
-        test.strictEqual(event, _event, "THIS IS WHY WE CAN'T HAVE NICE THINGS!!!");
+    emitter.on('telemetry', function (e) {
+        test.strictEqual(e, event, "THIS IS WHY WE CAN'T HAVE NICE THINGS!!!");
+        test.done();
     });
-    telemetry.emit(_event);
-    test.done();
+    telemetry.emit(event);
 };
 
 tests["emits <eventName> event if emitter and eventName are specified"] = function (test) {
     test.expect(1);
-    var _emitter = new events.EventEmitter();
-    var _event = {};
+    var emitter = new events.EventEmitter();
+    var event = {};
     var telemetry = new TelemetryEvents({
-            emitter: _emitter,
+            emitter: emitter,
             eventName: 'my-telemetry',
             package: {
                 name: "package-name",
                 version: "package-version"
             }
         });
-    _emitter.on('my-telemetry', function (event) {
-        test.strictEqual(event, _event, "THIS IS WHY WE CAN'T HAVE NICE THINGS!!!");
+    emitter.on('my-telemetry', function (e) {
+        test.strictEqual(e, event, "THIS IS WHY WE CAN'T HAVE NICE THINGS!!!");
+        test.done();
     });
-    telemetry.emit(_event);
+    telemetry.emit(event);
+};
+
+tests['returns event with provenance and timestamp'] = function (test) {
+    test.expect(4);
+    var telemetry = new TelemetryEvents({
+            package: {
+                name: "package-name",
+                version: "package-version"
+            }
+        });
+    var event = {};
+    var returnedEvent = telemetry.emit(event);
+    test.strictEqual(event, returnedEvent, "didn't return the passed event");
+    test.ok(returnedEvent.provenance instanceof Array, "should've added 'event.provenance'");
+    test.ok(typeof returnedEvent.timestamp === "string", "should've added 'event.timestamp'");
+    test.doesNotThrow(function() {
+        new Date(returnedEvent.timestamp);
+    });
+    test.done();
+};
+
+tests['does not override existing timestamp'] = function (test) {
+    test.expect(1);
+    var telemetry = new TelemetryEvents({
+            package: {
+                name: "package-name",
+                version: "package-version"
+            }
+        });
+    var timestamp = "0";
+    var returnedEvent = telemetry.emit({timestamp: timestamp});
+    test.strictEqual(returnedEvent.timestamp, timestamp, "didn't preserve existing 'timestamp'");
+    test.done();
+};
+
+tests['returns event with extended provenance'] = function (test) {
+    test.expect(3);
+    var telemetry = new TelemetryEvents({
+            package: {
+                name: "package-name",
+                version: "package-version"
+            }
+        });
+    var event = telemetry.emit({provenance: [{}]});
+    test.equal(event.provenance.length, 2, "should've added additional entry to 'event.provenance'");
+    test.equal(event.provenance[1].module, "package-name");
+    test.equal(event.provenance[1].version, "package-version");
     test.done();
 };
