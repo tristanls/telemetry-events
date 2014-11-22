@@ -79,6 +79,6 @@ Creates a new TelemetryEvents instance.
   * `event`: _Object_ Event to be emitted.
   * Return: _Object_ The event.
 
-Adds or extends 'event.provenance'. Adds 'event.timestamp' if not present.
+Adds or extends `event.provenance`. Adds `event.timestamp` if not present.
 
 If `emitter` is not defined, this method does not emit the event. When `emitter` is defined, calling this method will emit the `event` using `eventName`, if provided, or "telemetry" (by default).
