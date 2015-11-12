@@ -4,7 +4,7 @@ index.js: telemetry-events
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Tristan Slominski, Leora Pearson
+Copyright (c) 2014-2015 Tristan Slominski, Leora Pearson
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -30,6 +30,9 @@ OTHER DEALINGS IN THE SOFTWARE.
 */
 
 "use strict";
+
+var clone = require("clone");
+var extend = require("extend");
 
 module.exports = TelemetryEvents;
 
@@ -65,11 +68,22 @@ function TelemetryEvents(config) {
 };
 
 /*
+  * `common`: _Object_ _(Default: undefined)_ Optional common event data to
+      clone and extend with the `event` data.
   * `event`: _Object_ Event to be emitted.
   * Return: _Object_ The event.
  */
-TelemetryEvents.prototype.emit = function emit(event) {
+TelemetryEvents.prototype.emit = function emit(common, event)
+{
     var self = this;
+    if (event === undefined)
+    {
+        event = common;
+    }
+    else
+    {
+        event = extend(true, clone(common), event);
+    }
 
     if (!event.provenance) {
         event.provenance = [];
