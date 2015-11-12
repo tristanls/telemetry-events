@@ -17,6 +17,7 @@ Helper for creating and emitting telemetry events.
   * [Tests](#tests)
   * [Documentation](#documentation)
     * [TelemetryEvents](#telemetryevents)
+  * [Releases](#releases)
 
 ## Installation
 
@@ -82,3 +83,13 @@ Creates a new TelemetryEvents instance.
 Adds or extends `event.provenance`. Adds `event.timestamp` if not present.
 
 If `emitter` is not defined, this method does not emit the event. When `emitter` is defined, calling this method will emit the `event` using `eventName`, if provided, or "telemetry" (by default).
+
+## Releases
+
+We follow semantic versioning policy (see: [semver.org](http://semver.org/)):
+
+> Given a version number MAJOR.MINOR.PATCH, increment the:
+>
+>MAJOR version when you make incompatible API changes,<br/>
+>MINOR version when you add functionality in a backwards-compatible manner, and<br/>
+>PATCH version when you make backwards-compatible bug fixes.
