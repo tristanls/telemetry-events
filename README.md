@@ -54,12 +54,12 @@ telemetry.emit(_commonEventData,
 {
     type: "log",
     level: "info",
-    message: "info message using method metadata scaffold"
+    message: "info message using common event data"
 });
 telemetry.emit(_commonEventData,
 {
     type: "metric",
-    name: "metric with metadata",
+    name: "metric with common event data",
     target_type: "counter",
     unit: "Call",
     value: 1
