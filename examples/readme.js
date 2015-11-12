@@ -45,17 +45,17 @@ emitter.on('telemetry', function (event) {
 telemetry.emit({type: 'log', level: 'info', message: 'hello info level'});
 telemetry.emit({type: 'metric', name: 'web requests', target_type: 'counter', unit: 'Req', value: 1});
 
-var _methodMetadata = {
+var _commonEventData = {
     method: "readme",
     provenance: [{module: "my-module"}]
 };
-telemetry.emit(_methodMetadata,
+telemetry.emit(_commonEventData,
 {
     type: "log",
     level: "info",
     message: "info message using method metadata scaffold"
 });
-telemetry.emit(_methodMetadata,
+telemetry.emit(_commonEventData,
 {
     type: "metric",
     name: "metric with metadata",

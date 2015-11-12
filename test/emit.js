@@ -137,7 +137,7 @@ tests['returns event with extended provenance'] = function (test) {
     test.done();
 };
 
-tests['clones and extends a scaffold if provided without altering the original'] = function(test)
+tests['clones and extends common data if provided without altering the original'] = function(test)
 {
     test.expect(5);
     var telemetry = new TelemetryEvents(
@@ -147,14 +147,14 @@ tests['clones and extends a scaffold if provided without altering the original']
             version: "package-version"
         }
     });
-    var scaffold = {
-        some: "scaffold",
+    var common = {
+        some: "common data",
         with: {
             some: "data"
         }
     };
-    var originalScaffold = clone(scaffold);
-    var event = telemetry.emit(scaffold,
+    var original = clone(common);
+    var event = telemetry.emit(common,
     {
         my: "event",
         with: {
@@ -162,14 +162,14 @@ tests['clones and extends a scaffold if provided without altering the original']
         }
     });
     test.equal(Object.keys(event).length, 5, "expected 5 event parameters");
-    test.equal(event.some, "scaffold", "expected scaffold data to be present");
+    test.equal(event.some, "common data", "expected common data to be present");
     test.deepEqual(event.with,
     {
         some: "data",
         more: "data"
-    }, "expected scaffold and event to be combined");
+    }, "expected common and event to be combined");
     test.equal(event.my, "event", "expected event data to be present");
-    test.deepEqual(scaffold, originalScaffold,
-                   "expected scaffold object to be unmodified");
+    test.deepEqual(common, original,
+                   "expected common object to be unmodified");
     test.done();
 };

@@ -68,21 +68,21 @@ function TelemetryEvents(config) {
 };
 
 /*
-  * `scaffold`: _Object_ _(Default: undefined)_ Optional scaffold to clone and
-      extend with the `event` data.
+  * `common`: _Object_ _(Default: undefined)_ Optional common event data to
+      clone and extend with the `event` data.
   * `event`: _Object_ Event to be emitted.
   * Return: _Object_ The event.
  */
-TelemetryEvents.prototype.emit = function emit(scaffold, event)
+TelemetryEvents.prototype.emit = function emit(common, event)
 {
     var self = this;
     if (event === undefined)
     {
-        event = scaffold;
+        event = common;
     }
     else
     {
-        event = extend(true, clone(scaffold), event);
+        event = extend(true, clone(common), event);
     }
 
     if (!event.provenance) {
