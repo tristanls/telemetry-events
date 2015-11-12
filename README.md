@@ -46,6 +46,25 @@ emitter.on('telemetry', function (event) {
 telemetry.emit({type: 'log', level: 'info', message: 'hello info level'});
 telemetry.emit({type: 'metric', name: 'web requests', target_type: 'counter', unit: 'Req', value: 1});
 
+var _methodMetadata = {
+    method: "readme",
+    provenance: [{module: "my-module"}]
+};
+telemetry.emit(_methodMetadata,
+{
+    type: "log",
+    level: "info",
+    message: "info message using method metadata scaffold"
+});
+telemetry.emit(_methodMetadata,
+{
+    type: "metric",
+    name: "metric with metadata",
+    target_type: "counter",
+    unit: "Call",
+    value: 1
+});
+
 ```
 
 ## Tests
@@ -61,7 +80,7 @@ telemetry.emit({type: 'metric', name: 'web requests', target_type: 'counter', un
 **Public API**
 
   * [new TelemetryEvents(config)](#new-telemetryeventsconfig)
-  * [telemetry.emit(event)](#telemetryemitevent)
+  * [telemetry.emit(\[scaffold\], event)](#telemetryemitscaffold-event)
 
 ### new TelemetryEvents(config)
 
@@ -74,11 +93,14 @@ telemetry.emit({type: 'metric', name: 'web requests', target_type: 'counter', un
 
 Creates a new TelemetryEvents instance.
 
-### telemetry.emit(event)
+### telemetry.emit([scaffold], event)
 
+  * `scaffold`: _Object_ _(Default: undefined)_ Optional scaffold to clone and extend with the `event` data.
   * `event`: _Object_ Event to be emitted.
   * Return: _Object_ The event.
 
 Adds or extends `event.provenance`. Adds `event.timestamp` if not present.
+
+If `emit(event)` is given a single argument, it will be treated as `event` and `scaffold` will be `undefined`.
 
 If `emitter` is not defined, this method does not emit the event. When `emitter` is defined, calling this method will emit the `event` using `eventName`, if provided, or "telemetry" (by default).

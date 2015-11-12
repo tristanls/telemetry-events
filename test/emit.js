@@ -4,7 +4,7 @@ emit.js - TelemetryEvents.emit() test
 
 The MIT License (MIT)
 
-Copyright (c) 2014 Tristan Slominski, Leora Pearson
+Copyright (c) 2014-2015 Tristan Slominski, Leora Pearson
 
 Permission is hereby granted, free of charge, to any person
 obtaining a copy of this software and associated documentation
@@ -31,6 +31,7 @@ OTHER DEALINGS IN THE SOFTWARE.
 
 "use strict";
 
+var clone = require("clone");
 var events = require('events');
 var TelemetryEvents = require('../index.js');
 
@@ -133,5 +134,42 @@ tests['returns event with extended provenance'] = function (test) {
     test.equal(event.provenance.length, 2, "should've added additional entry to 'event.provenance'");
     test.equal(event.provenance[1].module, "package-name");
     test.equal(event.provenance[1].version, "package-version");
+    test.done();
+};
+
+tests['clones and extends a scaffold if provided without altering the original'] = function(test)
+{
+    test.expect(5);
+    var telemetry = new TelemetryEvents(
+    {
+        package: {
+            name: "package-name",
+            version: "package-version"
+        }
+    });
+    var scaffold = {
+        some: "scaffold",
+        with: {
+            some: "data"
+        }
+    };
+    var originalScaffold = clone(scaffold);
+    var event = telemetry.emit(scaffold,
+    {
+        my: "event",
+        with: {
+            more: "data"
+        }
+    });
+    test.equal(Object.keys(event).length, 5, "expected 5 event parameters");
+    test.equal(event.some, "scaffold", "expected scaffold data to be present");
+    test.deepEqual(event.with,
+    {
+        some: "data",
+        more: "data"
+    }, "expected scaffold and event to be combined");
+    test.equal(event.my, "event", "expected event data to be present");
+    test.deepEqual(scaffold, originalScaffold,
+                   "expected scaffold object to be unmodified");
     test.done();
 };
