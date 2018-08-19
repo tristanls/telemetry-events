@@ -100,7 +100,9 @@ Creates a new TelemetryEvents instance.
   * `event`: _Object_ Event to be emitted.
   * Return: _Object_ The event.
 
-Adds or extends `event.provenance`. Adds `event.timestamp` if not present.
+Adds or extends `event.provenance`. It is worth highlighting that `event.provenance` is a notion similar to a stack in a stack trace. In the case of `telemetry-events`, `event.provenance` is the stack of telemetry emitters. `event.provenance` is not intended to be used as a tracing feature. For tracing see [telemetry-events-trace](https://github.com/tristanls/telemetry-events-trace).
+
+Adds `event.timestamp` if not present.
 
 If `emit(event)` is given a single argument, it will be treated as `event` and `common` will be `undefined`.
 
