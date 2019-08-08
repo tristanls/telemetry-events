@@ -5,11 +5,11 @@
   "scripts": {
     "inject-examples": "node scripts/injectExamples.js",
     "readme": "node examples/readme.js",
-    "test": "node scripts/test.js"
+    "test": "jest"
   },
   "main": "index.js",
   "devDependencies": {
-    "nodeunit": "0.11.3"
+    "jest": "24.8.0"
   },
   "dependencies": {
     "clone": "2.1.2",
